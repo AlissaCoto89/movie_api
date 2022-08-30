@@ -1,12 +1,12 @@
-const http = require("http"),
-  fs = require("fs"),
-  url = require("url");
+const http = require("http");
+const fs = require("fs");
+const url = require("url");
 
 http
   .createServer((request, response) => {
-    let addr = request.url,
-      query = url.parse(addr, true),
-      filePath = "";
+    let addr = request.url;
+    let query = url.parse(addr, true);
+    let filePath = "";
 
     fs.appendFile(
       "log.txt",
