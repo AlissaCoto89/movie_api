@@ -4,8 +4,23 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const bodyParser = require("body-parser"),
-methodOverride = require('method-override');
+const bodyParser = require("body-parser");
+const methodOverride = require('method-override');
+
+let topMovies = [
+  {
+    title: 'Iron Man',
+    director: 'Jon Favreau'
+  },
+  {
+    title: 'The Incredible Hulk',
+    director: 'Louis Leterrier'
+  },
+  {
+    title: 'Iron Man 2',
+    director: 'Jon Favreau'
+  }
+];
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
