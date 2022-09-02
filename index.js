@@ -42,59 +42,73 @@ let users = [
 let movies = [
   {
     Title: "Iron Man",
-    Genre: { Name: "Science Fiction" },
-    Director: { Name: "Jon Favreau" },
-  },
-  {
-    Title: "The Incredible Hulk",
-    Genre: { Name: "Thriller" },
-    Director: { Name: "Louis Leterrier" },
-  },
-  {
-    Title: "Iron Man 2",
+    Description: "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.",
     Genre: { Name: "Superhero" },
     Director: { Name: "Jon Favreau" },
+    ImageURL: "https://www.previewsworld.com/SiteImage/MainImage/STL206028.jpg"
+  },
+  {
+    Title: "Bridesmaids",
+    Description: "Competition between the maid of honor and a bridesmaid, over who is the bride's best friend, threatens to upend the life of an out-of-work pastry chef.",
+    Genre: { Name: "Comedy" },
+    Director: { Name: "Paul Feig"},
+    ImageURL: "https://m.media-amazon.com/images/I/71NSaiNKO9L._AC_SL1333_.jpg"
+  },
+  {
+    Title: "The Notebook",
+    Description: "A poor yet passionate young man falls in love with a rich young woman, giving her a sense of freedom, but they are soon separated because of their social differences.",
+    Genre: { Name: "Drama" },
+    Director: { Name: "Nick Cassavetes" },
+    ImageURL: "https://www.imdb.com/title/tt0332280/mediaviewer/rm1153669376/?ref_=tt_ov_i"
   },
   {
     Title: "Thor",
-    Genre: { Name: "Fantasy" },
+    Description: "The powerful but arrogant god Thor is cast out of Asgard to live amongst humans in Midgard (Earth), where he soon becomes one of their finest defenders.",
+    Genre: { Name: "Superhero" },
     Director: { Name: "Kenneth Branagh" },
+    ImageURL: "https://www.imdb.com/title/tt0800369/mediaviewer/rm3272546304/?ref_=tt_ov_i"
   },
   {
-    Title: "Captain America: The First Avenger",
-    Genre: {
-      Name: "Superhero",
-    },
+    Title: "Pretty Woman",
+    Description: "A man in a legal but hurtful business needs an escort for some social events, and hires a beautiful prostitute he meets... only to fall in love.",
+    Genre: { Name: "Romantic Comedy" },
     Director: { Name: "Joe Johnston" },
+    ImageURL: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTDTHnd0HSjj9GDi8-rOC6vXCvO7J4GqmuNbFjQ58NPrAh_l0p8"
   },
   {
-    Title: "The Avengers",
-    Genre: { Name: "Action" },
-    Director: { Name: "Joss Whedon" },
+    Title: "The Godfather",
+    Description: "The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.",
+    Genre: { Name: "Crime" },
+    Director: { Name: "Francis Ford Coppola" },
+    ImageURL: "https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/?ref_=tt_ov_i"
   },
   {
-    Title: "Iron Man 3",
+    Title: "Twilight",
+    Description: "When Bella Swan moves to a small town in the Pacific Northwest, she falls in love with Edward Cullen, a mysterious classmate who reveals himself to be a 108-year-old vampire.",
+    Genre: { Name: "Fantasy" },
+    Director: { Name: "Catherine Hardwicke" },
+    ImageURL: "https://www.imdb.com/title/tt1099212/mediaviewer/rm2266076160/?ref_=tt_ov_i"
+  },
+  {
+    Title: "The Shining",
+    Description: "A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence, while his psychic son sees horrific forebodings from both past and future.",
+    Genre: { Name: "Horror" },
+    Director: { Name: "Stanley Kubrick" },
+    ImageURL: "https://www.imdb.com/title/tt0081505/mediaviewer/rm3901111552/?ref_=tt_ov_i"
+  },
+  {
+    Title: "Clueless",
+    Description: "Shallow, rich and socially successful Cher is at the top of her Beverly Hills high school's pecking scale. Seeing herself as a matchmaker, Cher first coaxes two teachers into dating each other.",
     Genre: { Name: "Comedy" },
-    Director: { Name: "Shane Black" },
+    Director: { Name: "Amy Heckerling" },
+    ImageURL: "https://www.imdb.com/title/tt0112697/mediaviewer/rm2643037953/?ref_=tt_ov_i"
   },
   {
-    Title: "Thor: The Dark World",
-    Genre: { Name: "Science Fiction" },
-    Director: { Name: "Alan Taylor" },
-  },
-  {
-    Title: "Captain America: The Winter Soldier",
-    Genre: {
-      Name: "Action",
-    },
-    Director: { Name: "Anthony Russo" },
-  },
-  {
-    Title: "Guardians of the Galaxy",
-    Genre: {
-      Name: "Science Fiction",
-    },
-    Director: { Name: "James Gunn" },
+    Title: "Zoolander",
+    Description: "At the end of his career, a clueless fashion model is brainwashed to kill the Prime Minister of Malaysia.",
+    Genre: { Name: "Comedy" },
+    Director: { Name: "Ben Stiller" },
+    ImageURL: "https://www.imdb.com/title/tt0196229/mediaviewer/rm2303908096/?ref_=tt_ov_i"
   },
 ];
 
