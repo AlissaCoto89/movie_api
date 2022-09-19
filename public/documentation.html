@@ -51,7 +51,7 @@
 
     <div class="search_movies">
       <h2>Search Movies by Title</h2>
-      <h3 class="url">/movies/:movieTitle</h3>
+      <h3 class="url">/movies/:Title</h3>
       <h4>Method Type: GET</h4>
       <p>
         <strong>Description:</strong> This endpoint allows users to search a
@@ -87,7 +87,7 @@
 
     <div class="find_genre">
       <h2>Search Movie Genre</h2>
-      <h3 class="url">/movies/genre/:genreName</h3>
+      <h3 class="url">/movies/genre/:Name</h3>
       <h4>Method Type: GET</h4>
       <p>
         <strong>Description:</strong> This endpoint allows users to search for a
@@ -115,7 +115,7 @@
 
     <div class="get_director">
       <h2>Find a Director</h2>
-      <h3 class="url">/movies/directors/:directorName</h3>
+      <h3 class="url">/movies/directors/:Name</h3>
       <h4>Method Type: GET</h4>
       <p>
         <strong>Description:</strong> This endpoint allows users to search for a
@@ -133,7 +133,7 @@
       <h4>Example:</h4>
       <code class="code">
         {<br />
-        "Name":"Paul Feig"<br />
+        "Name":"Ben Stiller"<br />
         }
       </code>
       <p><strong>Response status codes:</strong></p>
@@ -154,12 +154,12 @@
       <p><strong>Query Parameters:</strong> None</p>
       <p>
         <strong>Expected request data:</strong> JSON object with data about
-        user. <span class="required">Required</span>: "name"
+        user. <span class="required">Required</span>: "Username"
       </p>
       <h4>Example:</h4>
       <code class="code">
         {<br />
-        "Name": "Brielle" <br />
+        "Username": "brielle715" <br />
         }
       </code>
       <p>
@@ -169,20 +169,20 @@
       <h4>Example:</h4>
       <code class="code">
         {<br />
-        "Name": "Brielle",<br />
+        "Username": "brielle715",<br />
         "favoriteMovies": [],<br />
         "id": "1"<br />
         }
       </code>
       <p><strong>Response status codes:</strong></p>
       <p>201: Created</p>
-      <p>400: Bad request- Users need names!</p>
+      <p>400: Bad request- Username already exists!</p>
     </div>
     <br />
 
     <div class="updating_users">
       <h2>Updating Usernames</h2>
-      <h3 class="url">/users/:id</h3>
+      <h3 class="url">/users/:Username</h3>
       <h4>Method Type: POST</h4>
       <p>
         <strong>Description:</strong> This endpoint allows users to update their
@@ -190,14 +190,14 @@
         "name" it returns string, for "favorite movies" array, and for an "id"
         integer.
       </p>
-      <p><strong>Query Parameters:</strong> :id</p>
+      <p><strong>Query Parameters:</strong> :Username</p>
       <p>
         <strong>Expected request data:</strong> JSON object with data about
         user.
       </p>
-      <p><strong>Required</strong>: :id</p>
+      <p><strong>Required</strong>: :Username</p>
       <h4>Example:</h4>
-      <p>localhost:8080/users/1</p>
+      <p>localhost:8080/users/brielle715</p>
       <br />
       <code class="code">
         {<br />
@@ -206,13 +206,13 @@
       </code>
       <p>
         <strong>Expected response data:</strong> JSON object with data about
-        user which includes,"id" with integer value, "Name", and "favorite
+        user which includes,"id" with integer value, "Username", and "favorite
         movies" with an array.
       </p>
       <h4>Example:</h4>
       <code class="code">
         { "id": 1, <br />
-        "name": "Brielle Updated Name", <br />
+        "Username": "Brielle Updated Name", <br />
         "favoriteMovies": [] }
       </code>
       <p><strong>Response status codes:</strong></p>
@@ -223,22 +223,22 @@
 
     <div class="add_favorite_movie">
       <h2>Add Favorite Movies</h2>
-      <h3 class="url">/users/:id/movieTitle</h3>
+      <h3 class="url">/users/:Username/movies/:MovieID</h3>
       <h4>Method Type: POST</h4>
       <p>
         <strong>Description:</strong>This endpoint allows users to add movie to
         their favorite list.Endpoint returns an JSON object with users data
         including updated favorite movies array.
       </p>
-      <p><strong>Query Parameters:</strong> :id, :movieTitle</p>
-      <p><strong>Expected request data:</strong> Required: :id, :movieTitle</p>
+      <p><strong>Query Parameters:</strong> :Username, :MovieID</p>
+      <p><strong>Expected request data:</strong> Required: :Username, :MovieID</p>
       <h4>Example:</h4>
-      <p>localhost:8080/users/1/Thor</p>
+      <p>localhost:8080/users/brielle715/631a0654a7fa1a84728fb357</p>
       <p>
         <strong>Expected response data:</strong> JSON object with updated list
         of movies in Favorite Movies array.
       </p>
-      <code class="code"> { Thor has been added to user 1 array! } </code>
+      <code class="code"> { 631a0654a7fa1a84728fb357 has been added! } </code>
       <p><strong>Response status codes:</strong></p>
       <p>200: OK- Movie has been added to user array!</p>
       <p>400: Bad Request- No such user!</p>
@@ -247,23 +247,23 @@
 
     <div class="remove_favorite_movie">
       <h2>Remove Movie from Favorite</h2>
-      <h3 class="url">/users/:id/:movieTitle</h3>
+      <h3 class="url">/users/:Username/movies/:MovieID</h3>
       <h4>Method Type: DELETE</h4>
       <p>
-        <strong>Description:</strong> This endpoint allows users to remove movie
-        from their list. Endpoint returns an JSON object with users data
+        <strong>Description:</strong> This endpoint allows users to remove a movie
+        from their favorites. Endpoint returns an JSON object with users data
         including updated favorite movies array.
       </p>
-      <p><strong>Query Parameters:</strong> :id, :movieTitle</p>
-      <p><strong>Expected request data:</strong> Required: /id, /movieTitle</p>
+      <p><strong>Query Parameters:</strong> :Username, :MovieID</p>
+      <p><strong>Expected request data:</strong> Required: /:Username, /:MovieID</p>
       <h4>Example:</h4>
-      <p>localhost:8080/users/1/Thor</p>
+      <p>localhost:8080/users/brielle715/movies/631a0654a7fa1a84728fb357</p>
       <p>
         <strong>Expected response data:</strong> A message indicating the movie
         has been removed from the user's array.
       </p>
       <h4>Example:</h4>
-      <code class="code"> { Thor has been removed from user 1 array! } </code>
+      <code class="code"> { 631a0654a7fa1a84728fb357 was deleted! } </code>
       <p><strong>Response status codes:</strong></p>
       <p>200: OK- Movie has been removed from users array!</p>
       <p>400: Bad Request- No such user!</p>
@@ -272,23 +272,23 @@
 
     <div class="deleting_users">
       <h2>Deleting Users</h2>
-      <h3 class="url">/users/:id</h3>
+      <h3 class="url">/users/:Username</h3>
       <h4>Method Type: DELETE</h4>
       <p>
         <strong>Description:</strong> This endpoint allows users remove their
         account by their Username.Endpoint returns a confirmation message that
         users account has been deleted.
       </p>
-      <p><strong>Query Parameters:</strong> :id,</p>
-      <p><strong>Expected request data:</strong> Required: :id</p>
+      <p><strong>Query Parameters:</strong> :Username,</p>
+      <p><strong>Expected request data:</strong> Required: :Username</p>
       <h4>Example:</h4>
-      <p>localhost:8080/users/1</p>
+      <p>localhost:8080/users/brielle715</p>
       <p>
         <strong>Expected response data:</strong> A confirmation message that
         users account has been deleted.
       </p>
       <h4>Example:</h4>
-      <code class="code"> { "user 1 has been deleted" } </code>
+      <code class="code"> { "brielle715 has been deleted" } </code>
       <p><strong>Response status codes:</strong></p>
       <div class="status_codes">
         <p>200: OK- User id has been deleted!</p>
