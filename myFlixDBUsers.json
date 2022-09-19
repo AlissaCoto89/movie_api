@@ -1,4 +1,0 @@
-{"_id":1.0,"Username":"brielle715","Password":"bmc715","Email":"bmc771155@gmail.com","Birthday":{"$date":"2011-07-15T00:00:00Z"},"favoriteMovies":[{"$oid":"631a19dc380ecdabc8309fe2"},{"$oid":"63190ac796f74d2d1548cc58"}]}
-{"_id":2.0,"Username":"grayson315","Password":"gbc3115","Email":"gbcl3311@gmail.com","Birthday":{"$date":"2015-03-01T00:00:00Z"},"favoriteMovies":[{"$oid":"631a1b79380ecdabc8309fe3"}]}
-{"_id":3.0,"Username":"amelia1231","Password":"arj123120","Email":"arj12312020@gmail.com","Birthday":{"$date":"2020-12-31T00:00:00Z"},"favoriteMovies":[{"$oid":"631a19dc380ecdabc8309fe2"}]}
-{"_id":4.0,"Username":"alissa1589","Password":"akc115589","Email":"acoto89@gmail.com","Birthday":{"$date":"1989-01-05T00:00:00Z"},"favoriteMovies":[{"$oid":"631a09f8a7fa1a84728fb358"}]}
