@@ -1,0 +1,479 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.5
+-- Dumped by pg_dump version 14.5
+
+-- Started on 2022-09-06 21:07:15
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 212 (class 1259 OID 16405)
+-- Name: directors; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.directors (
+    directorid integer NOT NULL,
+    name character varying(50) NOT NULL,
+    bio character varying(1000),
+    birthyear date,
+    deathyear date
+);
+
+
+ALTER TABLE public.directors OWNER TO postgres;
+
+--
+-- TOC entry 211 (class 1259 OID 16404)
+-- Name: directors_directorid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.directors_directorid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.directors_directorid_seq OWNER TO postgres;
+
+--
+-- TOC entry 3357 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: directors_directorid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.directors_directorid_seq OWNED BY public.directors.directorid;
+
+
+--
+-- TOC entry 210 (class 1259 OID 16396)
+-- Name: genres; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.genres (
+    genreid integer NOT NULL,
+    name character varying(50) NOT NULL,
+    description character varying(1000)
+);
+
+
+ALTER TABLE public.genres OWNER TO postgres;
+
+--
+-- TOC entry 209 (class 1259 OID 16395)
+-- Name: genres_genreid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.genres_genreid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.genres_genreid_seq OWNER TO postgres;
+
+--
+-- TOC entry 3358 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: genres_genreid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.genres_genreid_seq OWNED BY public.genres.genreid;
+
+
+--
+-- TOC entry 214 (class 1259 OID 16417)
+-- Name: movies; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.movies (
+    movieid integer NOT NULL,
+    title character varying(50) NOT NULL,
+    description character varying(1000),
+    directorid integer NOT NULL,
+    genreid integer NOT NULL,
+    imageurl character varying(300),
+    featured boolean
+);
+
+
+ALTER TABLE public.movies OWNER TO postgres;
+
+--
+-- TOC entry 213 (class 1259 OID 16416)
+-- Name: movies_movieid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.movies_movieid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.movies_movieid_seq OWNER TO postgres;
+
+--
+-- TOC entry 3359 (class 0 OID 0)
+-- Dependencies: 213
+-- Name: movies_movieid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.movies_movieid_seq OWNED BY public.movies.movieid;
+
+
+--
+-- TOC entry 218 (class 1259 OID 16444)
+-- Name: user_movies; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_movies (
+    usermovieid integer NOT NULL,
+    userid integer,
+    movieid integer
+);
+
+
+ALTER TABLE public.user_movies OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 16443)
+-- Name: user_movies_usermovieid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.user_movies_usermovieid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_movies_usermovieid_seq OWNER TO postgres;
+
+--
+-- TOC entry 3360 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: user_movies_usermovieid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.user_movies_usermovieid_seq OWNED BY public.user_movies.usermovieid;
+
+
+--
+-- TOC entry 216 (class 1259 OID 16437)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    userid integer NOT NULL,
+    username character varying(50) NOT NULL,
+    password character varying(50) NOT NULL,
+    email character varying(50) NOT NULL,
+    birth_date date
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 16436)
+-- Name: users_userid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_userid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_userid_seq OWNER TO postgres;
+
+--
+-- TOC entry 3361 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: users_userid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_userid_seq OWNED BY public.users.userid;
+
+
+--
+-- TOC entry 3185 (class 2604 OID 16408)
+-- Name: directors directorid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.directors ALTER COLUMN directorid SET DEFAULT nextval('public.directors_directorid_seq'::regclass);
+
+
+--
+-- TOC entry 3184 (class 2604 OID 16399)
+-- Name: genres genreid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genres ALTER COLUMN genreid SET DEFAULT nextval('public.genres_genreid_seq'::regclass);
+
+
+--
+-- TOC entry 3186 (class 2604 OID 16420)
+-- Name: movies movieid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.movies ALTER COLUMN movieid SET DEFAULT nextval('public.movies_movieid_seq'::regclass);
+
+
+--
+-- TOC entry 3188 (class 2604 OID 16447)
+-- Name: user_movies usermovieid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_movies ALTER COLUMN usermovieid SET DEFAULT nextval('public.user_movies_usermovieid_seq'::regclass);
+
+
+--
+-- TOC entry 3187 (class 2604 OID 16440)
+-- Name: users userid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN userid SET DEFAULT nextval('public.users_userid_seq'::regclass);
+
+
+--
+-- TOC entry 3345 (class 0 OID 16405)
+-- Dependencies: 212
+-- Data for Name: directors; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.directors (directorid, name, bio, birthyear, deathyear) VALUES (1, 'Jon Favreau', 'Jon Favreau is an American actor, comedian, and filmmaker.', '1966-10-19', NULL);
+INSERT INTO public.directors (directorid, name, bio, birthyear, deathyear) VALUES (2, 'Stanley Kubrick', 'Stanley Kubrick was an American film director, producer, screenwriter, and photographer.', '1928-07-26', '1999-03-07');
+INSERT INTO public.directors (directorid, name, bio, birthyear, deathyear) VALUES (3, 'Catherine Hardwicke', 'Catherine Hardwicke is an American director and production designer.', '1955-10-21', NULL);
+INSERT INTO public.directors (directorid, name, bio, birthyear, deathyear) VALUES (4, 'Ben Stiller', 'Ben Stiller is an American actor, comedian, and filmmaker.', '1965-11-30', NULL);
+INSERT INTO public.directors (directorid, name, bio, birthyear, deathyear) VALUES (6, 'Paul Feig', 'Paul Feig is an American film director and writer.', '1962-09-17', NULL);
+INSERT INTO public.directors (directorid, name, bio, birthyear, deathyear) VALUES (7, 'Nick Cassavates', 'Nick Cassavetes is an American actor, director, and writer', '1959-05-21', NULL);
+INSERT INTO public.directors (directorid, name, bio, birthyear, deathyear) VALUES (8, 'Garry Marshall', 'Garry Kent Marshall was an American actor and filmmaker.', '1934-11-13', '2016-07-19');
+INSERT INTO public.directors (directorid, name, bio, birthyear, deathyear) VALUES (10, 'Francis Ford Coppola', 'Francis Ford Coppola is an American film director, producer, and screenwriter.', '1939-04-07', NULL);
+INSERT INTO public.directors (directorid, name, bio, birthyear, deathyear) VALUES (11, 'Amy Heckerling', 'Amy Heckerling is an American filmmaker.', '1954-05-07', NULL);
+
+
+--
+-- TOC entry 3343 (class 0 OID 16396)
+-- Dependencies: 210
+-- Data for Name: genres; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.genres (genreid, name, description) VALUES (1, 'Superhero', 'Superhero fiction is a genre of speculative fiction examining the adventures, personalities and ethics of costumed crime fighters known as superheroes, who often possess superhuman powers and battle similarly powered criminals known as supervillains.');
+INSERT INTO public.genres (genreid, name, description) VALUES (2, 'Comedy', 'Comedy is a genre of film in which the main emphasis is on humor. These films are designed to make the audience laugh through amusement and most often work by exaggerating characteristics for humorous effect.');
+INSERT INTO public.genres (genreid, name, description) VALUES (3, 'Romantic Comedy', 'Romantic comedy (also known as romcom or rom-com) is a subgenre of comedy and slice of life fiction, focusing on lighthearted, humorous plot lines centered on romantic ideas, such as how true love is able to surmount most obstacles.');
+INSERT INTO public.genres (genreid, name, description) VALUES (4, 'Drama', 'The drama genre features stories with high stakes and many conflicts. They''re plot-driven and demand that every character and scene move the story forward. Dramas follow a clearly defined narrative plot structure, portraying real-life scenarios or extreme situations with emotionally-driven characters.');
+INSERT INTO public.genres (genreid, name, description) VALUES (5, 'Horror', 'Horror is a genre of film whose purpose is to create feelings of fear, dread, disgust, and terror in the audience. The primary goal is to develop an atmosphere that puts the audience on edge and scares them.');
+INSERT INTO public.genres (genreid, name, description) VALUES (6, 'Crime', 'A crime film is a type of film focusing on the lives of criminals.');
+INSERT INTO public.genres (genreid, name, description) VALUES (7, 'Fantasy', 'Fantasy is a genre of speculative fiction involving magical elements, typically set in a fictional universe and sometimes inspired by mythology and folklore.');
+
+
+--
+-- TOC entry 3347 (class 0 OID 16417)
+-- Dependencies: 214
+-- Data for Name: movies; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.movies (movieid, title, description, directorid, genreid, imageurl, featured) VALUES (6, 'Iron Man', 'After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.', 1, 1, 'https://www.previewsworld.com/SiteImage/MainImage/STL206028.jpg', true);
+INSERT INTO public.movies (movieid, title, description, directorid, genreid, imageurl, featured) VALUES (7, 'Iron Man 2', 'With the world now aware of his identity as Iron Man, Tony Stark must contend with both his declining health and a vengeful mad man with ties to his father''s legacy.', 1, 1, 'https://www.imdb.com/title/tt1228705/mediaviewer/rm1059163136/?ref_=tt_ov_i', true);
+INSERT INTO public.movies (movieid, title, description, directorid, genreid, imageurl, featured) VALUES (8, 'Bridesmaids', 'Competition between the maid of honor and a bridesmaid, over who is the bride''s best friend, threatens to upend the life of an out-of-work pastry chef.', 6, 2, 'https://m.media-amazon.com/images/I/71NSaiNKO9L._AC_SL1333_.jpg', true);
+INSERT INTO public.movies (movieid, title, description, directorid, genreid, imageurl, featured) VALUES (9, 'The Notebook', 'A poor yet passionate young man falls in love with a rich young woman, giving her a sense of freedom, but they are soon separated because of their social differences.', 7, 4, 'https://www.imdb.com/title/tt0332280/mediaviewer/rm1153669376/?ref_=tt_ov_i', true);
+INSERT INTO public.movies (movieid, title, description, directorid, genreid, imageurl, featured) VALUES (10, 'Pretty Woman', 'A man in a legal but hurtful business needs an escort for some social events, and hires a beautiful prostitute he meets... only to fall in love.', 8, 3, 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTDTHnd0HSjj9GDi8-rOC6vXCvO7J4GqmuNbFjQ58NPrAh_l0p8', true);
+INSERT INTO public.movies (movieid, title, description, directorid, genreid, imageurl, featured) VALUES (11, 'The Godfather', 'The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.', 10, 6, 'https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/?ref_=tt_ov_i', true);
+INSERT INTO public.movies (movieid, title, description, directorid, genreid, imageurl, featured) VALUES (12, 'Twilight', 'When Bella Swan moves to a small town in the Pacific Northwest, she falls in love with Edward Cullen, a mysterious classmate who reveals himself to be a 108-year-old vampire.', 3, 7, 'https://www.imdb.com/title/tt1099212/mediaviewer/rm2266076160/?ref_=tt_ov_i', true);
+INSERT INTO public.movies (movieid, title, description, directorid, genreid, imageurl, featured) VALUES (14, 'Clueless', 'Shallow, rich and socially successful Cher is at the top of her Beverly Hills high school''s pecking scale. Seeing herself as a matchmaker, Cher first coaxes two teachers into dating each other.', 11, 2, 'https://www.imdb.com/title/tt0112697/mediaviewer/rm2643037953/?ref_=tt_ov_i', true);
+INSERT INTO public.movies (movieid, title, description, directorid, genreid, imageurl, featured) VALUES (15, 'Zoolander', 'At the end of his career, a clueless fashion model is brainwashed to kill the Prime Minister of Malaysia.', 4, 2, 'https://www.imdb.com/title/tt0196229/mediaviewer/rm2303908096/?ref_=tt_ov_i', true);
+
+
+--
+-- TOC entry 3351 (class 0 OID 16444)
+-- Dependencies: 218
+-- Data for Name: user_movies; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.user_movies (usermovieid, userid, movieid) VALUES (1, 1, 8);
+INSERT INTO public.user_movies (usermovieid, userid, movieid) VALUES (2, 1, 9);
+INSERT INTO public.user_movies (usermovieid, userid, movieid) VALUES (3, 2, 6);
+INSERT INTO public.user_movies (usermovieid, userid, movieid) VALUES (4, 2, 7);
+INSERT INTO public.user_movies (usermovieid, userid, movieid) VALUES (5, 3, 9);
+INSERT INTO public.user_movies (usermovieid, userid, movieid) VALUES (6, 3, 10);
+INSERT INTO public.user_movies (usermovieid, userid, movieid) VALUES (7, 4, 10);
+INSERT INTO public.user_movies (usermovieid, userid, movieid) VALUES (8, 4, 11);
+INSERT INTO public.user_movies (usermovieid, userid, movieid) VALUES (9, 5, 6);
+INSERT INTO public.user_movies (usermovieid, userid, movieid) VALUES (10, 5, 7);
+
+
+--
+-- TOC entry 3349 (class 0 OID 16437)
+-- Dependencies: 216
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.users (userid, username, password, email, birth_date) VALUES (1, 'Brielle715', 'BMC715', 'bmc771155@gmail.com', '2011-07-15');
+INSERT INTO public.users (userid, username, password, email, birth_date) VALUES (2, 'Grayson315', 'GBC3115', 'gbcl3311@gmail.com', '2015-03-01');
+INSERT INTO public.users (userid, username, password, email, birth_date) VALUES (3, 'Amelia1231', 'ARJ123120', 'arj12312020@gmail.com', '2020-12-31');
+INSERT INTO public.users (userid, username, password, email, birth_date) VALUES (5, 'AdamJ525', 'AMJ52585', 'amj525@gmail.com', '1985-05-25');
+INSERT INTO public.users (userid, username, password, email, birth_date) VALUES (4, 'Alissa1589', 'AKC115589', 'acoto189@gmail.com', '1989-01-05');
+
+
+--
+-- TOC entry 3362 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: directors_directorid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.directors_directorid_seq', 11, true);
+
+
+--
+-- TOC entry 3363 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: genres_genreid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.genres_genreid_seq', 7, true);
+
+
+--
+-- TOC entry 3364 (class 0 OID 0)
+-- Dependencies: 213
+-- Name: movies_movieid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.movies_movieid_seq', 15, true);
+
+
+--
+-- TOC entry 3365 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: user_movies_usermovieid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.user_movies_usermovieid_seq', 1, false);
+
+
+--
+-- TOC entry 3366 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: users_userid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_userid_seq', 1, false);
+
+
+--
+-- TOC entry 3192 (class 2606 OID 16412)
+-- Name: directors directors_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.directors
+    ADD CONSTRAINT directors_pkey PRIMARY KEY (directorid);
+
+
+--
+-- TOC entry 3190 (class 2606 OID 16403)
+-- Name: genres genres_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.genres
+    ADD CONSTRAINT genres_pkey PRIMARY KEY (genreid);
+
+
+--
+-- TOC entry 3194 (class 2606 OID 16424)
+-- Name: movies movies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.movies
+    ADD CONSTRAINT movies_pkey PRIMARY KEY (movieid);
+
+
+--
+-- TOC entry 3198 (class 2606 OID 16449)
+-- Name: user_movies user_movies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_movies
+    ADD CONSTRAINT user_movies_pkey PRIMARY KEY (usermovieid);
+
+
+--
+-- TOC entry 3196 (class 2606 OID 16442)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (userid);
+
+
+--
+-- TOC entry 3200 (class 2606 OID 16430)
+-- Name: movies directorkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.movies
+    ADD CONSTRAINT directorkey FOREIGN KEY (directorid) REFERENCES public.directors(directorid);
+
+
+--
+-- TOC entry 3199 (class 2606 OID 16425)
+-- Name: movies genrekey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.movies
+    ADD CONSTRAINT genrekey FOREIGN KEY (genreid) REFERENCES public.genres(genreid);
+
+
+--
+-- TOC entry 3202 (class 2606 OID 16455)
+-- Name: user_movies moviekey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_movies
+    ADD CONSTRAINT moviekey FOREIGN KEY (movieid) REFERENCES public.movies(movieid);
+
+
+--
+-- TOC entry 3201 (class 2606 OID 16450)
+-- Name: user_movies userkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_movies
+    ADD CONSTRAINT userkey FOREIGN KEY (userid) REFERENCES public.users(userid);
+
+
+-- Completed on 2022-09-06 21:07:16
+
+--
+-- PostgreSQL database dump complete
+--
+
