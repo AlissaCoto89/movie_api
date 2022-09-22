@@ -1,4 +1,5 @@
 const express = require("express");
+const app = express();
 const morgan = require("morgan");
 const fs = require("fs");
 const path = require("path");
@@ -14,12 +15,6 @@ const Users = Models.User;
   //useUnifiedTopology: true,
 //});
 
-mongoose.connect( process.env.CONNECTION_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -35,6 +30,11 @@ const { check, validationResult } = require("express-validator");
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
+});
+
+mongoose.connect( process.env.CONNECTION_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
 app.use(morgan("combined", { stream: accessLogStream }));
