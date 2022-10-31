@@ -19,7 +19,22 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const cors = require("cors");
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:1234",
+  "https://my-flix-db-akc.herokuapp.com"]
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      let message =
+        "The CORS policy for this application doesn’t allow access from origin " +
+        origin;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  },
+})
+);
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
@@ -76,6 +91,40 @@ app.get(
   }
 );
 
+app.post(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.findOne({ Title: req.body.title })
+      .then((movie) => {
+        if (movie) {
+          return res.status(400).send(req.body.title + " already exists");
+        } else {
+          Movies.create({
+            Title: req.body.Title,
+            Genre: req.body.Genre,
+            Director: req.body.Director,
+            Description: req.body.Description,
+            ImagePath: req.body.ImagePath || "#",
+            Featured: req.body.Featured ? req.body.Featured : false,
+          })
+            .then((movie) => {
+              res.status(201).json(movie);
+            })
+            .catch((error) => {
+              console.error(error);
+              res.status(500).send("Error: " + error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
+
+
 app.get(
   "/movies/genre/:Name",
   passport.authenticate("jwt", { session: false }),
@@ -124,7 +173,7 @@ app.post(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    let hashedPassword = Users.hashPassword(req.body.Password);
+    const hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
       .then((user) => {
         if (user) {
@@ -231,7 +280,6 @@ app.put(
 
 app.post(
   "/users/:Username/movies/:MovieID",
-  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
       { Username: req.params.Username },
@@ -272,22 +320,28 @@ app.delete(
 
 app.delete(
   "/users/:Username/movies/:MovieID",
-  passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Movies.findOneAndRemove({ FavoriteMovies: req.params.MovieID })
-      .then((movie) => {
-        if (!movie) {
-          res.status(400).send(req.params.MovieID + " was not found");
+    Users.findOneAndUpdate({ Username: req.params.Username },
+      {
+        $pull:{ FavoriteMovies: req.params.MovieID },
+      },
+      { new: true },
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
         } else {
-          res.status(200).send(req.params.MovieID + " was deleted.");
+          res.json(updatedUser);
         }
+      }
+    );
+
       })
       .catch((error) => {
         console.error(error);
         res.status(500).send("Error: " + error);
       });
-  }
-);
+
 
 const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
