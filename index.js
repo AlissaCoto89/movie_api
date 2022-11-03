@@ -95,7 +95,7 @@ app.post(
 );
 
 app.delete(
-  "/movies",
+  "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.findOne({ Title: req.body.title })
@@ -128,7 +128,7 @@ app.delete(
 );
 
 app.put(
-  "/movies",
+  "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.findOne({ Title: req.body.title })
