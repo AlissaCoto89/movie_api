@@ -98,7 +98,7 @@ app.delete(
   "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Movies.findOne({ Title: req.body.title })
+    Movies.findOneAndDelete({ Title: req.body.title })
       .then((movie) => {
         if (movie) {
           return res.status(400).send(req.body.title + " already exists");
@@ -131,7 +131,7 @@ app.put(
   "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Movies.findOne({ Title: req.body.title })
+    Movies.findOneAndUpdate({ Title: req.body.title })
       .then((movie) => {
         if (movie) {
           return res.status(400).send(req.body.title + " already exists");
