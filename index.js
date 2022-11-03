@@ -50,7 +50,7 @@ app.get("/documentation", (req, res) => {
 });
 
 app.get("/movies", function (req, res) {
-  passport.authenticate('jwt', { session: false })
+  passport.authenticate("jwt", { session: false });
   Movies.find()
     .then(function (movies) {
       res.status(201).json(movies);
@@ -262,6 +262,47 @@ app.put(
   }
 );
 
+app.post(
+  "/users/:Username/movies/:MovieID",
+  (req, res) => {
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $push: { FavoriteMovies: req.params.MovieID },
+      },
+      { new: true },
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
+
+app.delete(
+  '/users/:Username/movies/:MovieID',
+  (req, res) => {
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $pull: { FavoriteMovies: req.params.MovieID },
+      },
+      { new: true },
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
 
 app.delete(
   "/users/:Username",
@@ -281,7 +322,6 @@ app.delete(
       });
   }
 );
-
 
 const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
