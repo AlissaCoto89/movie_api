@@ -99,18 +99,6 @@ app.delete(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.findOneAndRemove({ Title: req.body.title })
-      .then((movie) => {
-        if (movie) {
-          return res.status(400).send(req.body.title + " already exists");
-        } else {
-          Movies.findOneAndRemove({
-            Title: req.body.Title,
-            Genre: req.body.Genre,
-            Director: req.body.Director,
-            Description: req.body.Description,
-            ImagePath: req.body.ImagePath || "#",
-            Featured: req.body.Featured ? req.body.Featured : false,
-          })
             .then((movie) => {
               res.status(201).json(movie);
             })
@@ -119,13 +107,7 @@ app.delete(
               res.status(500).send("Error: " + error);
             });
         }
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).send("Error: " + error);
-      });
-  }
-);
+      );
 
 app.put(
   "/movies/:Title",
