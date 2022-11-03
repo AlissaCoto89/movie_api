@@ -103,7 +103,7 @@ app.delete(
         if (movie) {
           return res.status(400).send(req.body.title + " already exists");
         } else {
-          Movies.create({
+          Movies.delete({
             Title: req.body.Title,
             Genre: req.body.Genre,
             Director: req.body.Director,
@@ -134,9 +134,9 @@ app.put(
     Movies.findOneAndUpdate({ Title: req.body.title })
       .then((movie) => {
         if (movie) {
-          return res.status(400).send(req.body.title + " already exists");
+          return res.status(400).send(req.body.title + " updated ");
         } else {
-          Movies.create({
+          Movies.updateOne({
             Title: req.body.Title,
             Genre: req.body.Genre,
             Director: req.body.Director,
