@@ -49,13 +49,13 @@ app.get("/documentation", (req, res) => {
   res.sendFile("public/documentation.html", { root: __dirname });
 });
 
-app.get("/movies", function (req, res) {
+app.get("/movies", (req, res) => {
   passport.authenticate("jwt", { session: false });
   Movies.find()
-    .then(function (movies) {
+    .then((movies) => {
       res.status(201).json(movies);
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.error(error);
       res.status(500).send("Error: " + error);
     });
@@ -264,7 +264,6 @@ app.put(
 
 app.post(
   "/users/:Username/movies/:MovieID",
-  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
       { Username: req.params.Username },
@@ -286,7 +285,6 @@ app.post(
 
 app.delete(
   "/users/:Username/movies/:MovieID",
-  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
       { Username: req.params.Username },
