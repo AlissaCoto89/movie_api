@@ -262,6 +262,21 @@ app.put(
   }
 );
 
+app.get(
+  "/users/:Username/movies/:MovieID",
+  (req, res) => {
+    Users.find()
+      .then((users) => {
+        res.status(201).json(users);
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
+
+
 app.post(
   "/users/:Username/movies/:MovieID",
   (req, res) => {
