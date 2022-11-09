@@ -63,7 +63,6 @@ app.get("/movies", (req, res) => {
 
 app.post(
   "/movies",
-  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.findOne({ Title: req.body.title })
       .then((movie) => {
