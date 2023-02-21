@@ -21,22 +21,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const cors = require("cors");
 const allowedOrigins = [
   "http://localhost:1234",
+  "http://localhost:4200",
   "http:///localhost:8080",
   "https://myflix-akc.netlify.app",
-  "https://my-flix-db-akc.herokuapp.com"
+  "https://my-flix-db-akc.herokuapp.com",
 ];
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      let message =
-        "The CORS policy for this application does not allow access from origin " +
-        origin;
-      return callback(new Error(message), false);
-    }
-    return callback(null, true);
-  },
-})
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        let message =
+          "The CORS policy for this application does not allow access from origin " +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
 );
 let auth = require("./auth")(app);
 const passport = require("passport");
@@ -79,37 +81,34 @@ app.get("/movies", (req, res) => {
     });
 });
 
-app.post(
-  "/movies",
-  (req, res) => {
-    Movies.findOne({ Title: req.body.title })
-      .then((movie) => {
-        if (movie) {
-          return res.status(400).send(req.body.title + " already exists");
-        } else {
-          Movies.create({
-            Title: req.body.Title,
-            Genre: req.body.Genre,
-            Director: req.body.Director,
-            Description: req.body.Description,
-            ImagePath: req.body.ImagePath || "#",
-            Featured: req.body.Featured ? req.body.Featured : false,
+app.post("/movies", (req, res) => {
+  Movies.findOne({ Title: req.body.title })
+    .then((movie) => {
+      if (movie) {
+        return res.status(400).send(req.body.title + " already exists");
+      } else {
+        Movies.create({
+          Title: req.body.Title,
+          Genre: req.body.Genre,
+          Director: req.body.Director,
+          Description: req.body.Description,
+          ImagePath: req.body.ImagePath || "#",
+          Featured: req.body.Featured ? req.body.Featured : false,
+        })
+          .then((movie) => {
+            res.status(201).json(movie);
           })
-            .then((movie) => {
-              res.status(201).json(movie);
-            })
-            .catch((error) => {
-              console.error(error);
-              res.status(500).send("Error: " + error);
-            });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).send("Error: " + error);
-      });
-  }
-);
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send("Error: " + error);
+          });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
+});
 
 app.get(
   "/movies/:Title",
@@ -279,62 +278,52 @@ app.put(
   }
 );
 
-app.get(
-  "/users/:Username/movies/:MovieID",
-  (req, res) => {
-    Users.find()
-      .then((users) => {
-        res.status(201).json(users);
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).send("Error: " + error);
-      });
-  }
-);
+app.get("/users/:Username/movies/:MovieID", (req, res) => {
+  Users.find()
+    .then((users) => {
+      res.status(201).json(users);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
+});
 
-
-app.post(
-  "/users/:Username/movies/:MovieID",
-  (req, res) => {
-    Users.findOneAndUpdate(
-      { Username: req.params.Username },
-      {
-        $push: { FavoriteMovies: req.params.MovieID },
-      },
-      { new: true },
-      (err, updatedUser) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send("Error: " + err);
-        } else {
-          res.json(updatedUser);
-        }
+app.post("/users/:Username/movies/:MovieID", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $push: { FavoriteMovies: req.params.MovieID },
+    },
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
       }
-    );
-  }
-);
+    }
+  );
+});
 
-app.delete(
-  "/users/:Username/movies/:MovieID",
-  (req, res) => {
-    Users.findOneAndUpdate(
-      { Username: req.params.Username },
-      {
-        $pull: { FavoriteMovies: req.params.MovieID },
-      },
-      { new: true },
-      (err, updatedUser) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send("Error: " + err);
-        } else {
-          res.json(updatedUser);
-        }
+app.delete("/users/:Username/movies/:MovieID", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $pull: { FavoriteMovies: req.params.MovieID },
+    },
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
       }
-    );
-  }
-);
+    }
+  );
+});
 
 app.delete(
   "/users/:Username",
