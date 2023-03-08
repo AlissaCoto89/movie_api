@@ -26,6 +26,7 @@ const allowedOrigins = [
   "https://myflix-akc.netlify.app",
   "https://my-flix-db-akc.herokuapp.com",
   "https://alissacoto89.github.io/myFlix-Angular-client/welcome",
+  "https://alissacoto89.github.io",
 ];
 app.use(
   cors({
